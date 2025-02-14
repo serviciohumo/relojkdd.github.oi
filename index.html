@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Reloj Radio KDD Musical</title>
+    <style>
+        /* Estilo del widget */
+        #widget-container {
+            width: 300px;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px auto;
+        }
+        #title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #FFD700; /* Amarillo brillante para el título */
+        }
+        #clock {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        #timezone {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        #country-select {
+            padding: 5px;
+            font-size: 0.9rem;
+            margin: 5px;
+            width: 100%;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            border: none;
+        }
+        /* Estilo para AM/PM más pequeño */
+        #clock span {
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="widget-container">
+        <div id="title">Radio KDD Musical</div>
+        <div id="clock">00:00:00 <span>AM</span></div>
+        <div id="timezone">España</div>
+        <select id="country-select" onchange="setTimezone(this.value)">
+            <option value="Europe/Madrid">España</option>
+            <option value="America/Mexico_City">México</option>
+            <option value="America/Toronto">Canadá</option>
+            <option value="Asia/Tokyo">Japón</option>
+            <option value="Europe/Moscow">Rusia</option>
+            <option value="America/Bogota">Colombia</option>
+        </select>
+    </div>
+
+    <script>
+        let currentZone = 'Europe/Madrid';
+        const timezoneElement = document.getElementById('timezone');
+
+        function setTimezone(timezone) {
+            currentZone = timezone;
+
+            // Actualizar la zona horaria mostrada
+            let countryName;
+            switch (timezone) {
+                case 'Europe/Madrid':
+                    countryName = 'España';
+                    break;
+                case 'America/Mexico_City':
+                    countryName = 'México';
+                    break;
+                case 'America/Toronto':
+                    countryName = 'Canadá';
+                    break;
+                case 'Asia/Tokyo':
+                    countryName = 'Japón';
+                    break;
+                case 'Europe/Moscow':
+                    countryName = 'Rusia';
+                    break;
+                case 'America/Bogota':
+                    countryName = 'Colombia';
+                    break;
+                default:
+                    countryName = 'Zona Horaria Desconocida';
+            }
+
+            timezoneElement.textContent = countryName;
+
+            updateClock();
+        }
+
+        function updateClock() {
+            const date = new Date();
+            let hours, minutes, seconds, period;
+
+            switch (currentZone) {
+                case 'Europe/Madrid': // España
+                    hours = date.getUTCHours() + 1;
+                    break;
+                case 'America/Mexico_City': // México
+                    hours = date.getUTCHours() - 6;
+                    break;
+                case 'America/Toronto': // Canadá
+                    hours = date.getUTCHours() - 5;
+                    break;
+                case 'Asia/Tokyo': // Japón
+                    hours = date.getUTCHours() + 9;
+                    break;
+                case 'Europe/Moscow': // Rusia
+                    hours = date.getUTCHours() + 3;
+                    break;
+                case 'America/Bogota': // Colombia
+                    hours = date.getUTCHours() - 5;
+                    break;
+                default:
+                    hours = date.getUTCHours();
+            }
+
+            // Ajustar el formato de 12 horas y AM/PM
+            period = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; // Convertir a formato de 12 horas
+
+            minutes = date.getMinutes();
+            seconds = date.getSeconds();
+
+            // Formatear con ceros a la izquierda
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+
+            // Actualizar el reloj con AM/PM más pequeño
+            const clockElement = document.getElementById('clock');
+            clockElement.innerHTML = `${formattedHours}:${formattedMinutes}:${formattedSeconds} <span>${period}</span>`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
