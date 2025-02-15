@@ -52,12 +52,12 @@
         <div id="clock">00:00:00 <span>AM</span></div>
         <div id="timezone">España</div>
         <select id="country-select" onchange="setTimezone(this.value)">
+            <option value="America/Argentina/Buenos_Aires">Argentina</option>
+            <option value="America/Toronto">Canadá</option>
+            <option value="America/Santiago">Chile</option>
+            <option value="America/Guayaquil">Ecuador</option>
             <option value="Europe/Madrid">España</option>
             <option value="America/Mexico_City">México</option>
-            <option value="America/Toronto">Canadá</option>
-            <option value="Asia/Tokyo">Japón</option>
-            <option value="Europe/Moscow">Rusia</option>
-            <option value="America/Bogota">Colombia</option>
         </select>
     </div>
 
@@ -71,23 +71,23 @@
             // Actualizar la zona horaria mostrada
             let countryName;
             switch (timezone) {
+                case 'America/Argentina/Buenos_Aires':
+                    countryName = 'Argentina';
+                    break;
+                case 'America/Toronto':
+                    countryName = 'Canadá';
+                    break;
+                case 'America/Santiago':
+                    countryName = 'Chile';
+                    break;
+                case 'America/Guayaquil':
+                    countryName = 'Ecuador';
+                    break;
                 case 'Europe/Madrid':
                     countryName = 'España';
                     break;
                 case 'America/Mexico_City':
                     countryName = 'México';
-                    break;
-                case 'America/Toronto':
-                    countryName = 'Canadá';
-                    break;
-                case 'Asia/Tokyo':
-                    countryName = 'Japón';
-                    break;
-                case 'Europe/Moscow':
-                    countryName = 'Rusia';
-                    break;
-                case 'America/Bogota':
-                    countryName = 'Colombia';
                     break;
                 default:
                     countryName = 'Zona Horaria Desconocida';
@@ -103,23 +103,23 @@
             let hours, minutes, seconds, period;
 
             switch (currentZone) {
+                case 'America/Argentina/Buenos_Aires': // Argentina
+                    hours = date.getUTCHours() - 3;
+                    break;
+                case 'America/Toronto': // Canadá
+                    hours = date.getUTCHours() - 5;
+                    break;
+                case 'America/Santiago': // Chile
+                    hours = date.getUTCHours() - 3;
+                    break;
+                case 'America/Guayaquil': // Ecuador
+                    hours = date.getUTCHours() - 5;
+                    break;
                 case 'Europe/Madrid': // España
                     hours = date.getUTCHours() + 1;
                     break;
                 case 'America/Mexico_City': // México
                     hours = date.getUTCHours() - 6;
-                    break;
-                case 'America/Toronto': // Canadá
-                    hours = date.getUTCHours() - 5;
-                    break;
-                case 'Asia/Tokyo': // Japón
-                    hours = date.getUTCHours() + 9;
-                    break;
-                case 'Europe/Moscow': // Rusia
-                    hours = date.getUTCHours() + 3;
-                    break;
-                case 'America/Bogota': // Colombia
-                    hours = date.getUTCHours() - 5;
                     break;
                 default:
                     hours = date.getUTCHours();
